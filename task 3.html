@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-bottom: 20px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        #score {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div id="quiz">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+    </div>
+    <div id="score"></div>
+</div>
+
+<script>
+const questions = [
+    {
+        question: "What is the capital of France?",
+        options: ["A) London", "B) Paris", "C) Rome", "D) Berlin"],
+        answer: "B"
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        options: ["A) Earth", "B) Mars", "C) Jupiter", "D) Venus"],
+        answer: "B"
+    },
+    {
+        question: "Who wrote 'Hamlet'?",
+        options: ["A) Charles Dickens", "B) William Shakespeare", "C) Mark Twain", "D) Leo Tolstoy"],
+        answer: "B"
+    },
+    {
+        question: "What is the largest mammal?",
+        options: ["A) Elephant", "B) Blue Whale", "C) Giraffe", "D) Hippopotamus"],
+        answer: "B"
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function showQuestion() {
+    if (currentQuestion < questions.length) {
+        const q = questions[currentQuestion];
+        document.getElementById("question").textContent = q.question;
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = '';
+
+        q.options.forEach(option => {
+            const button = document.createElement("button");
+            button.textContent = option;
+            button.onclick = () => checkAnswer(option[0]); // First character is A, B, C, or D
+            optionsDiv.appendChild(button);
+        });
+    } else {
+        showScore();
+    }
+}
+
+function checkAnswer(selected) {
+    if (selected === questions[currentQuestion].answer) {
+        score++;
+    }
+    currentQuestion++;
+    showQuestion();
+}
+
+function showScore() {
+    document.getElementById("quiz").style.display = 'none';
+    document.getElementById("score").textContent = 'You scored ${score} out of ${questions.length}!';
+}
+
+// Start the quiz
+showQuestion();
+</script>
+
+</body>
+</html>
